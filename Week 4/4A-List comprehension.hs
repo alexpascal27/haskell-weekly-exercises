@@ -63,11 +63,18 @@ same xs ys =  [fst x | x <- (zip [1..] (zipWith (==) xs ys)), p x]
 ------------------------- Exercise 2
 
 pairs :: [a] -> [b] -> [(a,b)]
-pairs = undefined
+pairs xs ys = [(x, y) | x <- xs, y <- ys]
 
 selfpairs :: [a] -> [(a,a)]
-selfpairs = undefined
+selfpairs [] = []
+selfpairs xs = pairs xs xs
+
+selfpairscomprehension :: [a] -> [(a,a)]
+selfpairscomprehension [] = []
+selfpairscomprehension xs = [(x, y)| x <- xs, y <- xs]
 
 pyts :: Int -> [(Int,Int,Int)]
-pyts = undefined
+pyts n = [(a, b, c) | a <- [1..n], b <- [1..n], c <- [1..n], p a b c]
+    where 
+      p a b c = (a*a + b*b) == c*c
 
