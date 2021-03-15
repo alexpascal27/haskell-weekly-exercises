@@ -17,6 +17,8 @@ Operations include: finding if an variable is in a list, removing from a list, c
 ### Haskell
 Using the map, filter, zip and zipWith functions. Perform the operations from Week 2 but now use the newly learned in-built functions.
 ### Lambda Calculus
+Learned the basics of lambda and now applying the knowledge. Since a lambda term can be a variable, abstaction or application, its appropriate to be able to identify which one it is. Additionally, exercises test whether I can identify free and bounded variables as well as redexes.
+
 
 ## Week 4
 ### Haskell
