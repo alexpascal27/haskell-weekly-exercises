@@ -74,7 +74,7 @@ selfpairscomprehension [] = []
 selfpairscomprehension xs = [(x, y)| x <- xs, y <- xs]
 
 pyts :: Int -> [(Int,Int,Int)]
-pyts n = [(a, b, c) | a <- [1..n], b <- [1..n], c <- [1..n], p a b c]
+pyts n = [(a, b, c) | a <- [1..n], b <- [a..n], c <- [b..n], p a b c]
     where 
       p a b c = (a*a + b*b) == c*c
 
