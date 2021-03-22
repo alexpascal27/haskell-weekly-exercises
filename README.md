@@ -25,6 +25,7 @@ Learned the basics of lambda and now applying the knowledge. Since a lambda term
 Using list comprehension to perform all of the operations in Week 2 but now solely using list comprehension. 
 Using list comprehension together with the functions learned in Week 3 to perform more interesting operations.
 ### Lambda Calculus
+Learning to reduce lambda expressions to normal form. Understanding that some lambda expressions cannot be reduced to a normal form.
 
 ## Week 5
 ### Haskell
