@@ -20,7 +20,11 @@ isEmpty _     = False
 ------------------------- Exercise 1
 
 member :: Int -> IntTree -> Bool
-member = undefined   
+member _ Empty = False
+member i (Node n lnode rnode)
+  | i==n = True 
+  | i < n = member i lnode
+  | otherwise = member i rnode
 
 largest :: IntTree -> Int
 largest Empty            = undefined

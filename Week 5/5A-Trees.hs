@@ -28,10 +28,7 @@ height (Node n lnode rnode) = 1 + max (height lnode) (height rnode)
 
 member :: Int -> IntTree -> Bool
 member _ Empty = False
-member i (Node n lnode rnode)
-  | i==n = True 
-  | i < n = member i lnode
-  | otherwise = member i rnode
+member i (Node n lnode rnode) = i==n || member i lnode || member i rnode
 
 paths :: Int -> IntTree -> [[Int]]
 paths _ Empty = []
