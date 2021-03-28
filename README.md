@@ -29,13 +29,15 @@ Learning to reduce lambda expressions to normal form. Understanding that some la
 
 ## Week 5
 ### Haskell
-Learning to perform operations on trees.
+Learning to perform operations on trees containing integers.
 ### Lambda Calculus
 Exercises revolving around Church Booleans and Numerals.
 
 ## Week 6
 ### Haskell
+Making more complex functions for trees containing integers. Abstracting tree type (tree can now hold any type). Learning to program the lambda term as a data type. Performing basic operations on the basic data type.
 ### Lambda Calculus
+Proving Church Numeral operations using reducing and proof by induction.
 
 ## Week 7
 ### Haskell
