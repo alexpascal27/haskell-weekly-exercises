@@ -1,53 +1,60 @@
 
-data IntTree = Empty | Node Int IntTree IntTree
+data Tree a = Empty | Node a (Tree a) (Tree a)
 
-t :: IntTree
+t :: Num a =>  (Tree a)
 t = Node 4 (Node 2 (Node 1 Empty Empty) (Node 3 Empty Empty)) (Node 5 Empty (Node 6 Empty Empty))
 
-instance Show IntTree where
-    show = unlines . aux ' ' ' '
-      where
-        aux _ _ Empty = []
-        aux c d (Node x s t) = 
-          [ c:' ':m | m <- aux ' ' '|' s ] ++ 
-          ['+':'-':show x] ++ 
-          [ d:' ':n | n <- aux '|' ' ' t ]
+t1 :: Num a => (Tree a)
+t1 = Node 4 (Node 2 (Node 1 Empty Empty) (Node 3 Empty Empty)) (Node 5 Empty (Node 0 Empty Empty))
 
-isEmpty :: IntTree -> Bool
+isEmpty :: Tree a -> Bool
 isEmpty Empty = True
 isEmpty _     = False
 
 ------------------------- Exercise 1
 
-member :: Int -> IntTree -> Bool
+member :: Ord a => a -> Tree a -> Bool
 member _ Empty = False
 member i (Node n lnode rnode)
   | i==n = True 
   | i < n = member i lnode
   | otherwise = member i rnode
 
-largest :: IntTree -> Int
-largest Empty            = undefined
-largest (Node x l Empty) = undefined
-largest (Node x l r)     = undefined
+largest :: Ord a => Tree a -> a
+largest Empty            = error "largest: empty tree"
+largest (Node x l Empty) = x
+largest (Node x l r)     = largest r
 
-ordered :: IntTree -> Bool
-ordered = undefined
+ordered :: Ord a => Tree a -> Bool
+ordered Empty = True 
+ordered (Node x Empty Empty) = True
+ordered (Node x Empty (Node rx rl rr)) = rx > x && ordered(Node rx rl rr)
+ordered (Node x (Node lx ll lr) Empty) = lx < x && ordered(Node lx ll lr)
+ordered (Node x (Node lx ll lr) (Node rx rl rr)) = lx < x && rx > x && lx < rx && ordered(Node lx ll lr) && ordered(Node rx rl rr)
 
-deleteLargest :: IntTree -> IntTree
-deleteLargest = undefined
+deleteLargest :: Tree a -> Tree a
+deleteLargest Empty            = Empty
+-- found largest
+deleteLargest (Node x l Empty) = l
+deleteLargest (Node x l r)     = Node x l (deleteLargest r)
 
-delete :: Int -> IntTree -> IntTree
-delete _ Empty = undefined
+delete :: Ord a => a -> Tree a -> Tree a
+delete _ Empty = Empty
 delete y (Node x l r)
-    | y < x     = undefined
-    | y > x     = undefined
-    | isEmpty l = undefined
-    | otherwise = undefined
+    -- go left
+    | y < x     = Node x (delete y l) r
+    -- go right
+    | y > x     = Node x l (delete y r)
+    -- same as below but easy delete
+    | isEmpty l = r
+    -- harder delete
+    | otherwise = Node (largest l) (deleteLargest l) r
+
 
 ------------------------- Exercise 2
 
-{-
+
+
 instance Show a => Show (Tree a) where
     show = unlines . aux ' ' ' '
       where
@@ -56,7 +63,7 @@ instance Show a => Show (Tree a) where
           [ c:' ':m | m <- aux ' ' '|' s ] ++ 
           ['+':'-':show x] ++ 
           [ d:' ':n | n <- aux '|' ' ' t ]
--}
+
 
 
 
@@ -90,6 +97,7 @@ n2 = Lambda "x" (Apply (Lambda "y" (Variable "x")) (Variable "z"))
 
 n3 :: Term
 n3 = Apply (Lambda "x" (Lambda "y" (Apply (Variable "x") (Variable "y")))) n1
+
 
 -------------------------
 
@@ -125,7 +133,16 @@ free (Apply  n m) = free n `merge` free m
 ------------------------- Exercise 3
 
 numeral :: Int -> Term
-numeral = undefined
+numeral x
+  | x < 0 = error "negative input"
+  | otherwise = Lambda "f" (Lambda "x" (churchNumeral x)) 
+    where 
+      churchNumeral :: Int -> Term
+      churchNumeral x
+        | x == 0 = Variable "x"
+        -- x>0
+        | otherwise = Apply (Variable "f") (churchNumeral (x-1))
+
 
 ------------------------- Exercise 4
 
