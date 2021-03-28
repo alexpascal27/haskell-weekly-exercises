@@ -146,11 +146,26 @@ numeral x
 
 ------------------------- Exercise 4
 
+alphabet :: [String]
+alphabet = ["a","b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+
 variables :: [Var]
-variables = undefined
+variables = alphabeticalCount 0 0
+  where 
+    alphabeticalCount :: Int -> Int -> [Var]
+    alphabeticalCount letter n
+      | n == 0 && letter < 25 = alphabet!!letter : alphabeticalCount (letter+1) n
+      | n == 0 && letter == 25 = alphabet!!letter : alphabeticalCount 0 (n+1)
+      | letter == 25 = (alphabet!!letter ++ show n) : alphabeticalCount 0 (n+1)
+      | otherwise = ((alphabet!!letter) ++ show n) : alphabeticalCount (letter+1) n
 
 fresh :: [Var] -> Var
-fresh = undefined
+fresh [] = ""
+fresh xs = fresh' xs variables
+  where 
+  fresh' (x : xs) (y :ys)
+    | x == y = fresh' xs ys
+    | otherwise = y
 
 rename :: Var -> Var -> Term -> Term
 rename x y (Variable z)
