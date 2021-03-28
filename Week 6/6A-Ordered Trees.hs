@@ -167,14 +167,22 @@ fresh xs = fresh' xs variables
     | x == y = fresh' xs ys
     | otherwise = y
 
+-- var to replace -> -- new var -> term that we need to change -> new term
 rename :: Var -> Var -> Term -> Term
 rename x y (Variable z)
-    | z == x    = undefined
-    | otherwise = undefined
+    | z == x    = Variable y
+    | otherwise = Variable z
 rename x y (Lambda z n)
-    | z == x    = undefined
-    | otherwise = undefined
-rename x y (Apply n m) = undefined
+    | z == x    = Lambda z n
+    | otherwise = Lambda z (rename x y n)
+rename x y (Apply n m) = Apply (rename x y n) (rename x y m) 
 
 substitute :: Var -> Term -> Term -> Term
-substitute = undefined
+substitute x n (Variable y)
+    | x == y    = n
+    | otherwise = Variable y
+substitute x n (Lambda y m)
+    | x == y    = Lambda y m
+    | otherwise = Lambda z (substitute x n (rename y z m))
+    where z = fresh (used n `merge` used m `merge` [x,y])
+substitute x n (Apply m p) = Apply (substitute x n m) (substitute x n p)
