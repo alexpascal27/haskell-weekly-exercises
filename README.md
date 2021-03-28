@@ -29,7 +29,9 @@ Learning to reduce lambda expressions to normal form. Understanding that some la
 
 ## Week 5
 ### Haskell
+Learning to perform operations on trees.
 ### Lambda Calculus
+Exercises revolving around Church Booleans and Numerals.
 
 ## Week 6
 ### Haskell
